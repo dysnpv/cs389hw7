@@ -5,6 +5,8 @@
 #include <time.h>
 #include <assert.h>
 #include <string.h>
+#include <chrono>
+#include <iostream>
 
 #include "converter.h"
 
@@ -65,16 +67,19 @@ int main(int argc, char *argv[])
   double min_t = 1000000000.;
   uint32_t *nums = (uint32_t *)calloc(sizeof(uint32_t), nlines);
   for (int iter = atoi(argv[2]); iter > 0; --iter) {
-    clock_t t0 = clock();
+    std::chrono::high_resolution_clock::time_point t1, t2;
+    t1 = std::chrono::high_resolution_clock::now();
     convert_all(nlines, lines, nums);
-    double t = (double)(clock() - t0) / CLOCKS_PER_SEC;
+    t2 = std::chrono::high_resolution_clock::now();
+    double t = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
     assert(checksum(nums, nlines) == QUOTES_CSUM);
     if (t < min_t) {
       min_t = t;
     }
   }
 
-  printf("Best run time overall: %gs\n", min_t);
+  std::cout << "Best run time overall: " << min_t << "ns\n";
+//  printf("Best run time overall: %gs\n", min_t);
   free(nums);
   free(lines);
   free(data);
