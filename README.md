@@ -15,5 +15,9 @@ The calculation optimization.
    - The if statements like `if(l == 3) nums[i] = (lines[i][0] - '0') * 100 + (lines[i][1] - '0') * 10 + (lines[i][2] - '0');` can be furtherly optimized by rearranging the calculation. Instead of calculation `lines[i][j] - '0'` each time, we can sum everything first and then minus `'0' * 111` in the end. The new if statement is `if(l == 3) nums[i] = lines[i][0] * 100 + lines[i][1] * 10 + lines[i][2] - '0' * 111`
    - Time used after this optimization: 8223ns.
    
+The const variable optimization.
+   - Maybe instead of using `0` in our calculation, using `const in ascii_zero = 48` would save us a little time? The if statement now is `if(l == 3) nums[i] = lines[i][0] * 100 + lines[i][1] * 10 + lines[i][2] - ascii_zero * 111`
+   - Time used after this optimization: 8219ns. There is basically no improvement, which means this optimization has little effect.
+   
 A possible optimization that I didn't try: prefetching
    - One might think that we can prefetch the word `lines[i + 1]` while we are proccessing `lines[i]`. However, since `lines` is defined as a continuous array in `driver.c`, I don't think this optimization would work because modern cpu's prefetching optimization generally outperforms our manual optimization.
