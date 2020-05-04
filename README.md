@@ -7,6 +7,6 @@ My naive version of `convert_all` would go through each charactor of the words, 
 The atoi version of `convert_all` used 25390ns, where my naive version only used 12995ns. 
 
 ### Optimization
-1. The first optimization.
-   - We know that there are only 4 possible lengths for the words: 3, 4, 5 or 6. There are no words with less than 3 characters or more than 6 characters. We can take advantage of this point. 
-   - Time used: 8540ns.
+1. The loop to if optimization.
+   - We know that there are only 4 possible lengths for the words: 3, 4, 5 or 6. There are no words with less than 3 characters or more than 6 characters. We can take advantage of this point. Let `l = std::strlen(lines[i])`, then instead of looping from `line[i][0]` to `line[i][l]` and setting `nums[i] = nums[i] * 10 + lines[i][j] - '0'`, we can use statements like `if(l == 3) nums[i] = (lines[i][0] - '0') * 100 + (lines[i][1] - '0') * 10 + (lines[i][2] - '0');` to reduce the number of unnecessary times of writing to `nums[i]`.
+   - Time used after this optimization: 8540ns.
